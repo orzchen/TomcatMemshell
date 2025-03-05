@@ -9,7 +9,6 @@ import org.apache.catalina.Context;
 import org.apache.catalina.WebResourceRoot;
 import org.apache.catalina.core.*;
 import org.apache.catalina.loader.WebappClassLoaderBase;
-import org.example.tomcatmemshell.servlet.ServletMemShell;
 
 import javax.servlet.*;
 import java.io.File;
